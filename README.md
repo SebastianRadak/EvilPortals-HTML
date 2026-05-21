@@ -1,4 +1,4 @@
-# EvilPortal-HTML
+# EvilPortals-HTML
 HTML files for evil portals.
 Cada uno muestra un mensaje de bienvenida/agradecimiento confirmando la "conexión", luego de introducir la contraseña.
 
