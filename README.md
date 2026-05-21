@@ -1,5 +1,5 @@
 # EvilPortals-HTML
-Archivos HTML para portales cautivos (evil portals)
+Archivos HTML para portales cautivos (evil portals).
 
 Cada uno muestra un mensaje de bienvenida/agradecimiento confirmando la "conexión", luego de introducir la contraseña.
 
