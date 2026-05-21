@@ -1,8 +1,6 @@
 # EvilPortal-HTML
 HTML files for evil portals.
-Cada uno tiene un mensaje de bienvenida/agradecimiento luego de introducir la contraseña.
-
-Testeado con firmwa
+Cada uno muestra un mensaje de bienvenida/agradecimiento confirmando la "conexión", luego de introducir la contraseña.
 
 ## ⚠️ Descargo de responsabilidad
 
